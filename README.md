@@ -210,7 +210,6 @@ POST   /api/quote                 # Quote request
 GET    /api/testimonials          # Reviews
 ```
 
-See [API.md](docs/API.md) for detailed documentation.
 
 ## 🧪 Testing
 
@@ -244,9 +243,6 @@ git push origin main
 # Set root directory to 'backend'
 # Add environment variables
 # Deploy
-```
-
-See [DEPLOYMENT.md](docs/DEPLOYMENT.md) for detailed guide.
 
 ## 🔐 Security
 
@@ -285,9 +281,6 @@ We welcome contributions! Please:
 4. Push to branch (`git push origin feature/AmazingFeature`)
 5. Open Pull Request
 
-## 📄 License
-
-This project is licensed under the MIT License - see [LICENSE](LICENSE) file.
 
 ## 👥 Team
 
@@ -312,4 +305,4 @@ This project is licensed under the MIT License - see [LICENSE](LICENSE) file.
 - 📅 **Phase 4**: AI recommendations (Planned)
 **Made with ❤️ in Tanzania 🇹🇿 for East Africa 🌍**
 
-*Last Updated: December 2024*
+*Last Updated: November 4th*
