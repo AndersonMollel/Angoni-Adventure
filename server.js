@@ -7,12 +7,13 @@ const { createClient } = require('@supabase/supabase-js');
 const nodemailer = require('nodemailer');
 require('dotenv').config();
 
-const { initDb } = require('../database/');
-const packagesRouter = require('./api/routes/packages');
-const carsRouter = require('./api/routes/cars');
-const bookingsRouter = require('./api/routes/bookings');
-const adminRouter = require('./api/routes/admin');
-const paymentsRouter = require('./api/routes/payments');
+
+const { initDb } = require('./api/supabase');
+const packagesRouter = require('./api/roots/packagesRouter');
+const carsRouter = require('./api/roots/cars');
+const bookingsRouter = require('./api/roots/booking');
+const adminRouter = require('./api/roots/admin');
+const paymentsRouter = require('./api/roots/payments');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -24,7 +25,7 @@ const PORT = process.env.PORT || 3000;
 // Security
 app.use(helmet());
 app.use(cors({
-    origin: process.env.FRONTEND_URL || '*',
+    origin: process.env.FRONTEND_URL || 'https://angoniadventure.com',
     credentials: true
 }));
 
@@ -42,28 +43,6 @@ const limiter = rateLimit({
 });
 app.use('/api/', limiter);
 
-// Serve static frontend
-app.use('/', express.static(path.join(__dirname, 'public')));
-
-// API
-app.use('/api/packages', packagesRouter);
-app.use('/api/cars', carsRouter);
-app.use('/api/bookings', bookingsRouter);
-app.use('/api/admin', adminRouter);
-app.use('/api/payments', paymentsRouter);
-
-// Health
-app.get('/api/health', (req, res) => res.json({ ok: true, timestamp: Date.now() }));
-
-// Initialize DB and start
-(async () => {
-  await initDb();
-  app.listen(PORT, () => {
-    console.log(`Server running on http://localhost:${PORT}`);
-  });
-})();
-
-
 // =====================================================
 // DATABASE CONNECTION (Supabase)
 // =====================================================
@@ -73,6 +52,12 @@ const supabase = createClient(
     process.env.SUPABASE_ANON_KEY
 );
 
+if (!process.env.SUPABASE_URL || !process.env.SUPABASE_SECRET_KEY) {
+    console.error("FATAL ERROR: Environment variables are not loaded. Check your .env file.");
+    process.exit(1);
+}
+
+console.log("Supabase client successfully initialized.");
 // =====================================================
 // EMAIL CONFIGURATION
 // =====================================================
